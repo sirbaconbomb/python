@@ -1,0 +1,81 @@
+from onlinepayment import OnlinePayment
+
+FirstName = ""
+LastName = ""
+Address = int()
+City = int()
+#set up the variables for customer and card information
+firstname1 = FirstName()
+lastname1 = LastName()
+address1 = Address()
+city1 = City()
+state1 = State()
+zip1 = Zip()
+amount1 = Amount()
+card_num1 = Cardnum()
+exp_date1 = Expdate()
+card_code = Cardcode()
+
+Cardnum = int(16)
+Expdate = int(4)
+State = ""
+Zip = int(5)
+Amount = int()
+
+
+def translate(phrase):
+     conversion = ""
+    for letter in phrase:
+        if letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz":
+            conversion = conversion + "g"
+        else:
+            conversion = conversion + letter
+            return conversion
+
+
+# connect to authorize.net, setup auth with login and key
+auth= { 'login': 'Enter Your Username Here',
+        'key':   'Please enter your password' }
+
+op = OnlinePayment('authnet', test_mode=True, auth=auth)
+
+# or for paypal, setup auth with user, pass, vendor and product:
+auth= { 'username': 'YOUR USERNAME HERE',
+        'password': 'YOUR PASSWORD HERE',
+        'vendor':   'YOUR VENDOR HERE',
+        'product':  'YOUR PRODUCT HERE' }
+
+# connect to PayPal
+op = OnlinePayment('paypal', test_mode=True, auth=auth)
+
+
+# charge a card
+try:
+    result = op.sale(first_name = firstname1,
+                     last_name  = lastname1,
+                     address    = address1,
+                     city       = city1,
+                     state      = state1,
+                     zip        = zip1,
+                     amount     = amount1,
+                     card_num   = card_num1,
+                     exp_date   = exp_date1,
+                     card_code  = card_code)
+
+except conn.TransactionDeclined:
+   # do something when the transaction fails
+
+except conn.CardExpired:
+   # tell the user their card is expired
+
+except conn.ProcessorException:
+   # handle all other possible processor-generated exceptions generically
+
+# examine result, the values returned here are processor-specific
+success  = result.success
+code     = result.code
+message  = result.message
+trans_id = result.trans_id
+
+# you can get the raw data returned by the underlying processor too
+orig = result.orig
