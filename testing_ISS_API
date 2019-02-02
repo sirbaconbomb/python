@@ -1,0 +1,42 @@
+#!/bin/python3
+
+import json
+import turtle
+import urllib.request
+import time
+
+#setting url attributes for the People
+#set the url attribute
+url = "http://api.open-notify.org/astros.json"
+#call the url that you want to open
+callurl = urllib.request.urlopen(url)
+#load the json request
+jsonresult = json.loads(callurl.read())
+
+print('The number of people in space are: ', jsonresult['number'])
+
+people = jsonresult['people']
+#print(people)
+
+print('There names are: ')
+for p in people:
+    print(p['name'])
+
+#setting url attributes for the ISS information
+#set the url attribute
+url = "http://api.open-notify.org/iss-now.json"
+#call the url that you want to open
+callurl = urllib.request.urlopen(url)
+#load the json request
+jsonresult = json.loads(callurl.read())
+
+#creating attributes for the ISS info
+location = jsonresult['iss_position']
+print('The Longitude and Latitude of the ISS are as follows: ')
+lat = location['latitude']
+lon = location['longitude']
+print('The Latitude: ', lat)
+print('The Longitude: ', lon)
+
+over = jsonresult['response'][1]['risetime']
+print(over)
